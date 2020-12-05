@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.auth.LoginActivity">
+
+    <ImageView
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:text="@string/smart_laundry_login"
+        android:textColor="@color/purple_500"
+        android:textSize="@dimen/_17ssp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:startIconDrawable="@drawable/ic_email"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_login"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/purple_200"
+        app:passwordToggleEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:startIconDrawable="@drawable/ic_lock"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passowrd_login"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+   <LinearLayout
+       android:layout_marginTop="@dimen/_10sdp"
+       android:layout_gravity="end"
+       android:layout_width="wrap_content"
+       android:layout_marginEnd="@dimen/_35sdp"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <TextView
+           android:fontFamily="sans-serif-condensed"
+           android:textSize="@dimen/_12ssp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/lupa_password"/>
+
+       <TextView
+           android:textSize="@dimen/_12ssp"
+           android:id="@+id/tv_reset"
+           android:fontFamily="@font/dosis_semibold"
+           android:textColor="@color/purple_500"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/reset_disini"/>
+
+   </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit_login"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="55dp"
+        android:text="@string/login"
+        android:textStyle="bold"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+    <TextView
+        android:id="@+id/tv_belum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_13ssp"
+        android:text="@string/belum_punya_akun"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/_6sdp"/>
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:visibility="gone"
+        app:SpinKit_Color="@color/purple_200"
+        android:id="@+id/spin_kit_login"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="55dp"
+        android:text="@string/register"
+        android:textStyle="bold"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+</LinearLayout>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.RegisterActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:text="@string/form_register"
+        android:textSize="@dimen/_17ssp"
+        android:fontFamily="@font/dosis_semibold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:background="@color/white"
+        android:elevation="@dimen/_4sdp"/>
+
+    <ImageView
+
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:hint="@string/nama_lengkap"
+        app:startIconDrawable="@drawable/ic_person"
+        android:layout_marginTop="@dimen/_10sdp"
+       >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nama_register"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="50dp"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        app:startIconDrawable="@drawable/ic_email"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_register"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:startIconDrawable="@drawable/ic_phone"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/no_handphone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nohp_register"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_gravity="center"
+        app:startIconDrawable="@drawable/ic_location"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/alamat">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/alamat_register"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_lock"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_register"
+            android:fontFamily="@font/dosis_semibold"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_submit_register"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="55dp"
+        android:text="@string/submit"
+        android:textStyle="bold"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:visibility="gone"
+        app:SpinKit_Color="@color/purple_200"
+        android:id="@+id/spin_kit_register"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_tv_regis"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="@dimen/_12ssp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sudah_punya_akun"/>
+
+        <TextView
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textSize="@dimen/_12ssp"
+            android:id="@+id/tv_to_login"
+            android:fontFamily="@font/dosis_semibold"
+            android:textColor="@color/purple_500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_disini"/>
+
+    </LinearLayout>
+
+</LinearLayout>
