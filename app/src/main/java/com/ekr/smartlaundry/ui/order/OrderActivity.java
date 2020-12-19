@@ -1,26 +1,17 @@
 package com.ekr.smartlaundry.ui.order;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -30,17 +21,10 @@ import android.widget.Toast;
 
 import com.ekr.smartlaundry.R;
 import com.ekr.smartlaundry.data.CuciModel;
-import com.ekr.smartlaundry.data.ProductModel;
 import com.ekr.smartlaundry.utils.ResiHelper;
 import com.ekr.smartlaundry.utils.Session;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -53,10 +37,8 @@ import com.rishabhharit.roundedimageview.RoundedImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -64,15 +46,13 @@ import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
-import static com.ekr.smartlaundry.utils.GlobalPath.DB_ITEM;
 import static com.ekr.smartlaundry.utils.GlobalPath.DB_LAUNDRY;
-import static com.ekr.smartlaundry.utils.GlobalPath.DB_USER;
 import static com.ekr.smartlaundry.utils.GlobalPath.STORAGE;
 
 public class OrderActivity extends AppCompatActivity {
     private static final String TAG = "CEK";
     private Session session;
-    private RadioGroup radioGroup1, radioGroup2;
+    private RadioGroup radioGroup;
     private int qty_1 = 0;
     private int qty_2 = 0;
     private int qty_3 = 0;
@@ -81,18 +61,18 @@ public class OrderActivity extends AppCompatActivity {
     private int qty_6 = 0;
     private int qty_7 = 0;
     private int qty_8 = 0;
-    private int harga_1 = 1500;
-    private int harga_2 = 2500;
-    private int harga_3 = 3000;
-    private int harga_4 = 5000;
-    private int harga_5 = 7000;
-    private int harga_6 = 3500;
-    private int harga_7 = 2000;
-    private int harga_8 = 3500;
+    private final int harga_1 = 1500;
+    private final int harga_2 = 2500;
+    private final int harga_3 = 3000;
+    private final int harga_4 = 5000;
+    private final int harga_5 = 7000;
+    private final int harga_6 = 3500;
+    private final int harga_7 = 2000;
+    private final int harga_8 = 3500;
     private int total_harga = 0;
     private CuciModel productItem;
     private TextView tv_total_qty1, tv_total_qty2, tv_total_qty3, tv_total_qty4,
-            tv_total_qty5, tv_total_qty6, tv_total_qty7, tv_total_qty8;
+            tv_total_qty5, tv_total_qty6, tv_total_qty7, tv_total_qty8,textViewTipe;
     private ImageView plus_1, plus_2, plus_3, plus_4, plus_5, plus_6, plus_7, plus_8;
     private ImageView minus_1, minus_2, minus_3, minus_4, minus_5, minus_6, minus_7, minus_8;
     private EditText tie_alamat, tie_nohp, tie_keterangan;
@@ -105,7 +85,7 @@ public class OrderActivity extends AppCompatActivity {
     private StorageReference mStorageReference;
     private DatabaseReference dbOrder;
     private String imageName;
-    private RadioButton rb_cuciKering,rb_setrika,rb_cash,rb_trf;
+    private RadioButton rb_cash, rb_trf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,18 +106,17 @@ public class OrderActivity extends AppCompatActivity {
 
     private void tombolSubmit() {
         button_Submit.setOnClickListener(view -> {
-            if (rb_setrika.isChecked()){
-                tipe_pesanan = "Setrika";
+            if (tipe_pesanan.equals("Setrika")) {
                 resi = "SA-" + ResiHelper.getRandomString(5);
-            }
-            if (rb_cuciKering.isChecked()){
-                tipe_pesanan = "Cuci Kering";
+            } else if (tipe_pesanan.equals("Cuci Kering")) {
                 resi = "CK-" + ResiHelper.getRandomString(5);
+            }else {
+                resi = "CS-"+ResiHelper.getRandomString(5);
             }
-            if (rb_trf.isChecked()){
+            if (rb_trf.isChecked()) {
                 tipe_pembayaran = "Transfer";
             }
-            if (rb_cash.isChecked()){
+            if (rb_cash.isChecked()) {
                 tipe_pembayaran = "Tunai";
             }
             alamat_order = tie_alamat.getText().toString();
@@ -498,13 +477,14 @@ public class OrderActivity extends AppCompatActivity {
         mStorageReference = FirebaseStorage.getInstance().getReference();
         dbOrder = FirebaseDatabase.getInstance().getReference(DB_LAUNDRY);
         productItem = new CuciModel();
+        tipe_pesanan = getIntent().getStringExtra("tipe_pesanan");
+        textViewTipe = findViewById(R.id.tipe_oder);
+        textViewTipe.setText(tipe_pesanan);
         textView_totalHarga = findViewById(R.id.tv_order_total);
         textView_norek = findViewById(R.id.text_no_rekOrder);
         button_hitung = findViewById(R.id.order_btn_hitung);
         rb_cash = findViewById(R.id.check_cash);
         rb_trf = findViewById(R.id.check_transfer);
-        rb_cuciKering = findViewById(R.id.check_cuci);
-        rb_setrika = findViewById(R.id.check_setrika);
         button_upload = findViewById(R.id.btn_upload_order);
         button_Submit = findViewById(R.id.btn_submit_order);
         img_buktiTransfer = findViewById(R.id.img_buktiTransfer_order);
@@ -513,8 +493,7 @@ public class OrderActivity extends AppCompatActivity {
         button_kembali = findViewById(R.id.btn_back_order);
         tie_keterangan = findViewById(R.id.edt_keterangan_order);
         identitasHitung();
-        radioGroup1 = findViewById(R.id.radioGroup1);
-        radioGroup2 = findViewById(R.id.radioGroup2);
+        radioGroup = findViewById(R.id.radioGroup2);
         tie_alamat.setText(session.getSpAlamat());
         tie_nohp.setText(session.getSpNohp());
         button_kembali.setOnClickListener(view -> finish());
@@ -550,20 +529,8 @@ public class OrderActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     private void settingCheckbox() {
-        radioGroup1.setOnCheckedChangeListener((radioGroup, i) -> {
-            switch (i) {
-                case R.id.check_cuci:
-                    tipe_pesanan = "Cuci Kering";
-                    resi = "CK-" + ResiHelper.getRandomString(5);
-                    break;
-                case R.id.check_setrika:
-                    tipe_pesanan = "Setrika";
-                    resi = "SA-" + ResiHelper.getRandomString(5);
-                    break;
-            }
 
-        });
-        radioGroup2.setOnCheckedChangeListener((radioGroup, i) -> {
+        radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             switch (i) {
                 case R.id.check_cash:
                     tipe_pembayaran = "Tunai";

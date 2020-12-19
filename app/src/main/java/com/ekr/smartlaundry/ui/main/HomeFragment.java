@@ -98,13 +98,20 @@ public class HomeFragment extends Fragment {
 
     private void setupIntent() {
         cardView_paket.setOnClickListener(v -> {
-            startActivity(new Intent(requireActivity(), PaketActivity.class));
+            Intent paket = new Intent(requireActivity(),PaketActivity.class);
+            paket.putExtra("tipe_pesanan","Cuci Setrika");
+            startActivity(paket);
         });
         cardView_cuci.setOnClickListener(v -> {
-            startActivity(new Intent(requireActivity(), OrderActivity.class));
+            Intent cuci = new Intent(requireActivity(),OrderActivity.class);
+            cuci.putExtra("tipe_pesanan","Cuci");
+            startActivity(cuci);
+
         });
         cardView_setrika.setOnClickListener(v -> {
-            startActivity(new Intent(requireActivity(), OrderActivity.class));
+            Intent setrika = new Intent(requireActivity(),OrderActivity.class);
+            setrika.putExtra("tipe_pesanan","Setrika");
+            startActivity(setrika);
         });
         cardView_info.setOnClickListener(v -> {
             startActivity(new Intent(requireActivity(), InfoActivity.class));

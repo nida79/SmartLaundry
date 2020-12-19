@@ -78,33 +78,16 @@
                 android:text="Tipe Pesanan"
                 android:textSize="@dimen/_12ssp" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-
-                <RadioButton
-                    android:id="@+id/check_cuci"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:checked="true"
-                    android:text="@string/cuci"
-                    android:textSize="@dimen/_12ssp" />
-
-                <RadioButton
-                    android:id="@+id/check_setrika"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Setrika"
-                    android:textSize="@dimen/_12ssp" />
-            </RadioGroup>
+         <TextView
+             android:id="@+id/tipe_oder"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="@dimen/_10sdp"
+             tools:text="@string/setrika"
+             android:layout_marginTop="@dimen/_10sdp"
+             android:textColor="@color/black"
+             android:textStyle="bold"
+             android:textSize="@dimen/_12ssp"/>
 
             <TextView
                 android:layout_width="wrap_content"
