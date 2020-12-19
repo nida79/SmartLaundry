@@ -3,6 +3,8 @@ package com.ekr.smartlaundry.utils;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.ekr.smartlaundry.R;
 import com.shashank.platform.fancyflashbarlib.Flashbar;
 import com.shashank.platform.fancyflashbarlib.anim.FlashAnim;
@@ -30,4 +32,6 @@ public class AlertHelper {
                         .accelerateDecelerate())
                 .build();
     }
+
+
 }

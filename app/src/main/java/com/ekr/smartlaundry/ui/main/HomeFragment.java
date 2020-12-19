@@ -73,13 +73,13 @@ public class HomeFragment extends Fragment {
                 session.saveSPString(Session.SP_NAMA, nama);
                 session.saveSPString(Session.SP_NOHP, noHp);
                 session.saveSPString(Session.SP_ALAMAT, alamat);
-                Log.e("Cek Nama", nama );
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
               alertDialog.dismiss();
                 Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("Home", "cek"+error.getDetails());
             }
         });
     }

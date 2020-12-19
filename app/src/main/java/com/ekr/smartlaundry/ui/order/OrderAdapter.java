@@ -1,5 +1,8 @@
 package com.ekr.smartlaundry.ui.order;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ekr.smartlaundry.R;
@@ -19,20 +23,11 @@ import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
     private ArrayList<ProductModel> productModels;
-    private OnItemClickListener mListener;
+   private Context mcontext;
 
-    public interface OnItemClickListener {
-        void onPlusClick(int position);
-
-        void onMinusClick(int position);
-    }
-
-    public OrderAdapter(ArrayList<ProductModel> productModels) {
+    public OrderAdapter(ArrayList<ProductModel> productModels,Context mcontext) {
         this.productModels = productModels;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
+        this.mcontext = mcontext;
     }
 
     @NonNull
@@ -40,7 +35,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent,
                 false);
-        return new ViewHolder(view, mListener);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -48,24 +43,40 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         ProductModel model = productModels.get(position);
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-        Integer harga = Integer.parseInt(model.getHarga_produk());
-        int qty = 0;
-        holder.textView_harga.setText(formatRupiah.format((double) harga));
+        formatRupiah.setMaximumFractionDigits(0);
+        holder.textView_harga.setText(formatRupiah.format((double) model.getHarga_produk()));
         holder.textView_name.setText(model.getNama_produk());
         holder.plus.setOnClickListener(view -> {
-            int result_qty = qty+1;
-            holder.textView_result.setText(String.valueOf(result_qty));
+            productModels.get(position).setQty(productModels.get(position).getQty()+1);
+            holder.textView_result.setText(String.valueOf(productModels.get(position).getQty()));
+            int hasil = Integer.parseInt(holder.textView_result.getText().toString());
+            if (hasil > 0){
+                holder.minus.setVisibility(View.VISIBLE);
+            }
+            if (hasil <1){
+                holder.minus.setVisibility(View.INVISIBLE);
+            }
+            Intent intent = new Intent("counter");
+            intent.putExtra("qty",String.valueOf(hasil));
+            intent.putExtra("harga",String.valueOf(productModels.get(position).getHarga_produk()));
+            LocalBroadcastManager.getInstance(mcontext).sendBroadcast(intent);
         });
         holder.minus.setOnClickListener(view -> {
-            int result_qty = qty-1;
-            holder.textView_result.setText(String.valueOf(result_qty));
+            productModels.get(position).setQty(productModels.get(position).getQty()-1);
+            holder.textView_result.setText(String.valueOf(productModels.get(position).getQty()));
+            int hasil = Integer.parseInt(holder.textView_result.getText().toString());
+            if (hasil > 0){
+                holder.minus.setVisibility(View.VISIBLE);
+            }
+            if (hasil <1){
+                holder.minus.setVisibility(View.INVISIBLE);
+            }
+            Intent intent = new Intent("counter");
+            intent.putExtra("qty",String.valueOf(hasil));
+            intent.putExtra("harga",String.valueOf(model.getHarga_produk()));
+            LocalBroadcastManager.getInstance(mcontext).sendBroadcast(intent);
         });
-        int result = Integer.parseInt(holder.textView_result.getText().toString());
-        if (result <= 0){
-            holder.minus.setVisibility(View.INVISIBLE);
-        }else {
-            holder.minus.setVisibility(View.VISIBLE);
-        }
+
     }
 
     @Override
@@ -77,29 +88,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         private TextView textView_name, textView_harga, textView_result;
         private ImageView plus, minus;
 
-        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView_name = itemView.findViewById(R.id.tv_name_produk);
             textView_harga = itemView.findViewById(R.id.tv_harga_produk);
             textView_result = itemView.findViewById(R.id.tv_qty_product);
             plus = itemView.findViewById(R.id.plus_qty);
             minus = itemView.findViewById(R.id.minus_qty);
-            plus.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onPlusClick(position);
-                    }
-                }
-            });
-            minus.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onMinusClick(position);
-                    }
-                }
-            });
+
         }
     }
 }

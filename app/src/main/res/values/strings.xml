@@ -19,8 +19,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="form_pemesanan">Form Pemesanan</string>
-    <string name="cuci">Cuci</string>
-    <string name="setrika">Setrika</string>
+    <string name="cuci">Cuci Kering</string>
+    <string name="setrika">Cuci Setrika</string>
     <string name="transfer">Transfer</string>
     <string name="cash">Cash</string>
     <string name="input_alamat">Input Alamat</string>

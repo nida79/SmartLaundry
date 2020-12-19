@@ -14,10 +14,16 @@ public class CuciModel implements Parcelable {
     private String status;
     private String total_pembayaran;
     private String resi;
+    private String keyID;
+    private String keterangan;
+    private String foto;
 
-    public CuciModel(){}
+    public CuciModel() {
+    }
 
-    public CuciModel(String nama,String uuid, String alamat, String noHp, String tanggal, String tipe_pesanan, String tipe_pembayaran, String status, String total_pembayaran, String resi) {
+    public CuciModel(String nama, String uuid, String alamat, String noHp, String tanggal,
+                     String tipe_pesanan, String tipe_pembayaran,String keterangan,
+                     String status, String total_pembayaran, String resi, String keyID,String foto) {
         this.nama = nama;
         this.uuid = uuid;
         this.alamat = alamat;
@@ -25,9 +31,12 @@ public class CuciModel implements Parcelable {
         this.tanggal = tanggal;
         this.tipe_pesanan = tipe_pesanan;
         this.tipe_pembayaran = tipe_pembayaran;
+        this.keterangan = keterangan;
         this.status = status;
         this.total_pembayaran = total_pembayaran;
         this.resi = resi;
+        this.keyID = keyID;
+        this.foto = foto;
     }
 
     protected CuciModel(Parcel in) {
@@ -38,9 +47,12 @@ public class CuciModel implements Parcelable {
         tanggal = in.readString();
         tipe_pesanan = in.readString();
         tipe_pembayaran = in.readString();
+        keterangan = in.readString();
         status = in.readString();
         total_pembayaran = in.readString();
         resi = in.readString();
+        keyID = in.readString();
+        foto = in.readString();
     }
 
     public static final Creator<CuciModel> CREATOR = new Creator<CuciModel>() {
@@ -54,6 +66,28 @@ public class CuciModel implements Parcelable {
             return new CuciModel[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(nama);
+        parcel.writeString(uuid);
+        parcel.writeString(alamat);
+        parcel.writeString(noHp);
+        parcel.writeString(tanggal);
+        parcel.writeString(tipe_pesanan);
+        parcel.writeString(tipe_pembayaran);
+        parcel.writeString(keterangan);
+        parcel.writeString(status);
+        parcel.writeString(total_pembayaran);
+        parcel.writeString(resi);
+        parcel.writeString(keyID);
+        parcel.writeString(foto);
+    }
 
     public String getNama() {
         return nama;
@@ -135,22 +169,27 @@ public class CuciModel implements Parcelable {
         this.resi = resi;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getKeyID() {
+        return keyID;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(nama);
-        parcel.writeString(uuid);
-        parcel.writeString(alamat);
-        parcel.writeString(noHp);
-        parcel.writeString(tanggal);
-        parcel.writeString(tipe_pesanan);
-        parcel.writeString(tipe_pembayaran);
-        parcel.writeString(status);
-        parcel.writeString(total_pembayaran);
-        parcel.writeString(resi);
+    public void setKeyID(String keyID) {
+        this.keyID = keyID;
+    }
+
+    public String getKeterangan() {
+        return keterangan;
+    }
+
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
