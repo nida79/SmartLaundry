@@ -25,4 +25,8 @@
     <string name="cash">Cash</string>
     <string name="input_alamat">Input Alamat</string>
     <string name="input_no_hp">Input No HP</string>
+    <string-array name="array_update">
+        <item>Proses</item>
+        <item>Selesai</item>
+    </string-array>
 </resources>

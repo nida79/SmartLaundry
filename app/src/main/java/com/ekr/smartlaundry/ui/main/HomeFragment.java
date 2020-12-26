@@ -33,7 +33,7 @@ import static com.ekr.smartlaundry.utils.GlobalPath.DB_USER;
 public class HomeFragment extends Fragment {
     private CardView cardView_paket, cardView_cuci, cardView_setrika, cardView_info;
     private Session session;
-    private String nama, alamat, email, noHp;
+    private String nama, alamat, email, noHp,rule;
     private Query query;
 
     public HomeFragment() {
@@ -68,11 +68,13 @@ public class HomeFragment extends Fragment {
                     email = dataSnapshot.child("email").getValue(String.class);
                     noHp = dataSnapshot.child("nohp").getValue(String.class);
                     alamat = dataSnapshot.child("alamat").getValue(String.class);
+                    rule = dataSnapshot.child("rule").getValue(String.class);
                 }
                 session.saveSPString(Session.SP_EMAIL, email);
                 session.saveSPString(Session.SP_NAMA, nama);
                 session.saveSPString(Session.SP_NOHP, noHp);
                 session.saveSPString(Session.SP_ALAMAT, alamat);
+                session.saveSPString(Session.SP_RULE, rule);
             }
 
             @Override
