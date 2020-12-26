@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
 
     private void setupIntent() {
         cardView_paket.setOnClickListener(v -> {
-            Intent paket = new Intent(requireActivity(),PaketActivity.class);
+            Intent paket = new Intent(requireActivity(),OrderActivity.class);
             paket.putExtra("tipe_pesanan","Cuci Setrika");
             startActivity(paket);
         });

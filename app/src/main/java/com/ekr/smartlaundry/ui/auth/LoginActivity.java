@@ -20,9 +20,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shashank.platform.fancyflashbarlib.Flashbar;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    private Flashbar flashbar;
     private FirebaseUser currentUser;
     private Session session;
     private TextView textView_Reset,textView_belum;
@@ -45,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         session = new Session(this);
-        flashbar = AlertHelper.alertSuccess(this);
         textView_Reset = findViewById(R.id.tv_reset);
         textView_belum = findViewById(R.id.tv_belum);
         buttonLogin = findViewById(R.id.btn_submit_login);
@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
     private void doLogin() {
         buttonLogin.setOnClickListener(v -> {
             String email, password;
-            email = inputEditTextEmail.getText().toString();
-            password = inputEditTextPassword.getText().toString();
+            email = Objects.requireNonNull(inputEditTextEmail.getText()).toString();
+            password = Objects.requireNonNull(inputEditTextPassword.getText()).toString();
             if (email.equals("") || password.equals("")) {
                Toast.makeText(getApplicationContext(),"Lengkapi Kolom Pengisian",Toast.LENGTH_LONG).show();
             } else if (!EmailValidator.validate(email)) {

@@ -48,33 +48,45 @@ import dmax.dialog.SpotsDialog;
 
 import static com.ekr.smartlaundry.utils.GlobalPath.DB_LAUNDRY;
 import static com.ekr.smartlaundry.utils.GlobalPath.STORAGE;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_1;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_2;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_3;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_4;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_5;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_6;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_7;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_8;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_9;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_1;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_2;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_3;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_4;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_5;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_6;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_7;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_8;
+import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_9;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_1;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_2;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_3;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_4;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_5;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_6;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_7;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_8;
+import static com.ekr.smartlaundry.utils.GlobalPath.qty_9;
 
 public class OrderActivity extends AppCompatActivity {
     private static final String TAG = "CEK";
     private Session session;
     private RadioGroup radioGroup;
-    private int qty_1 = 0;
-    private int qty_2 = 0;
-    private int qty_3 = 0;
-    private int qty_4 = 0;
-    private int qty_5 = 0;
-    private int qty_6 = 0;
-    private int qty_7 = 0;
-    private int qty_8 = 0;
-    private final int harga_1 = 1500;
-    private final int harga_2 = 2500;
-    private final int harga_3 = 3000;
-    private final int harga_4 = 5000;
-    private final int harga_5 = 7000;
-    private final int harga_6 = 3500;
-    private final int harga_7 = 2000;
-    private final int harga_8 = 3500;
+
     private int total_harga = 0;
     private CuciModel productItem;
     private TextView tv_total_qty1, tv_total_qty2, tv_total_qty3, tv_total_qty4,
-            tv_total_qty5, tv_total_qty6, tv_total_qty7, tv_total_qty8,textViewTipe;
-    private ImageView plus_1, plus_2, plus_3, plus_4, plus_5, plus_6, plus_7, plus_8;
-    private ImageView minus_1, minus_2, minus_3, minus_4, minus_5, minus_6, minus_7, minus_8;
+            tv_total_qty5, tv_total_qty6, tv_total_qty7, tv_total_qty8,tv_total_qty9,textViewTipe;
+    private ImageView plus_1, plus_2, plus_3, plus_4, plus_5, plus_6, plus_7, plus_8,plus_9;
+    private ImageView minus_1, minus_2, minus_3, minus_4, minus_5, minus_6, minus_7, minus_8,minus_9;
     private EditText tie_alamat, tie_nohp, tie_keterangan;
     private String tipe_pesanan, tipe_pembayaran, alamat_order, tanggal_order, nohp_order, keyID, keterangan_order, resi;
     private TextView textView_totalHarga, textView_norek;
@@ -86,7 +98,16 @@ public class OrderActivity extends AppCompatActivity {
     private DatabaseReference dbOrder;
     private String imageName;
     private RadioButton rb_cash, rb_trf;
-
+    private TextView tv_baju,tv_kemeja,tv_levis,tv_sprei,tv_selimut,tv_bed,tv_jaket,tv_handuk,tv_mukena;
+    private int restult1 =0;
+    private int restult2 = 0;
+    private int restult3 = 0;
+    private int restult4 = 0;
+    private int restult5 = 0;
+    private int restult6 = 0;
+    private int restult7 = 0;
+    private int restult8 = 0;
+    private int restult9 = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +193,7 @@ public class OrderActivity extends AppCompatActivity {
         productItem.setNoHp(nohp_order);
         productItem.setTanggal(tanggal_order);
         productItem.setUuid(session.getSPUid());
-        productItem.setStatus("Waiting");
+        productItem.setStatus("Menunggu");
         productItem.setTipe_pembayaran(tipe_pembayaran);
         productItem.setTipe_pesanan(tipe_pesanan);
         productItem.setTotal_pembayaran(String.valueOf(total_harga));
@@ -323,7 +344,17 @@ public class OrderActivity extends AppCompatActivity {
                 minus_8.setVisibility(View.VISIBLE);
             }
         });
-
+        plus_9.setOnClickListener(view -> {
+            qty_9++;
+            tv_total_qty9.setText(String.valueOf(qty_9));
+            int hasil = Integer.parseInt(tv_total_qty9.getText().toString());
+            if (hasil < 1) {
+                minus_9.setVisibility(View.INVISIBLE);
+            }
+            if (hasil > 0) {
+                minus_9.setVisibility(View.VISIBLE);
+            }
+        });
         minus_1.setOnClickListener(view -> {
             qty_1--;
             tv_total_qty1.setText(String.valueOf(qty_1));
@@ -412,21 +443,46 @@ public class OrderActivity extends AppCompatActivity {
                 minus_8.setVisibility(View.VISIBLE);
             }
         });
+        minus_9.setOnClickListener(view -> {
+            qty_9--;
+            tv_total_qty9.setText(String.valueOf(qty_9));
+            int hasil = Integer.parseInt(tv_total_qty9.getText().toString());
+            if (hasil < 1) {
+                minus_9.setVisibility(View.INVISIBLE);
+            }
+            if (hasil > 0) {
+                minus_9.setVisibility(View.VISIBLE);
+            }
+        });
 
 
     }
 
     private void hitungTotal() {
         button_hitung.setOnClickListener(view -> {
-            int restult1 = harga_1 * qty_1;
-            int restult2 = harga_2 * qty_2;
-            int restult3 = harga_3 * qty_3;
-            int restult4 = harga_4 * qty_4;
-            int restult5 = harga_5 * qty_5;
-            int restult6 = harga_6 * qty_6;
-            int restult7 = harga_7 * qty_7;
-            int restult8 = harga_8 * qty_8;
-            total_harga = restult1 + restult2 + restult3 + restult4 + restult5 + restult6 + restult7 + restult8;
+            if (!tipe_pesanan.equals("Cuci Setrika")){
+                 restult1 = harga_1 * qty_1;
+                 restult2 = harga_2 * qty_2;
+                 restult3 = harga_3 * qty_3;
+                 restult4 = harga_4 * qty_4;
+                 restult5 = harga_5 * qty_5;
+                 restult6 = harga_6 * qty_6;
+                 restult7 = harga_7 * qty_7;
+                 restult8 = harga_8 * qty_8;
+                 restult9 = harga_9 * qty_9;
+            }else {
+                restult1 = harga_cs_1 * qty_1;
+                restult2 = harga_cs_2 * qty_2;
+                restult3 = harga_cs_3 * qty_3;
+                restult4 = harga_cs_4 * qty_4;
+                restult5 = harga_cs_5 * qty_5;
+                restult6 = harga_cs_6 * qty_6;
+                restult7 = harga_cs_7 * qty_7;
+                restult8 = harga_cs_8 * qty_8;
+                restult9 = harga_cs_9 * qty_9;
+            }
+
+            total_harga = restult1 + restult2 + restult3 + restult4 + restult5 + restult6 + restult7 + restult8+restult9;
             Locale localeID = new Locale("in", "ID");
             NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
             formatRupiah.setMaximumFractionDigits(0);
@@ -480,6 +536,14 @@ public class OrderActivity extends AppCompatActivity {
         tipe_pesanan = getIntent().getStringExtra("tipe_pesanan");
         textViewTipe = findViewById(R.id.tipe_oder);
         textViewTipe.setText(tipe_pesanan);
+        tv_baju = findViewById(R.id.tv_harga_baju);
+        tv_levis = findViewById(R.id.tv_harga_levis);
+        tv_sprei = findViewById(R.id.tv_harga_sprei);
+        tv_selimut = findViewById(R.id.tv_harga_selimut);
+        tv_bed = findViewById(R.id.tv_harga_bed);
+        tv_jaket = findViewById(R.id.tv_harga_jaket);
+        tv_handuk = findViewById(R.id.tv_harga_handuk);
+        tv_mukena = findViewById(R.id.tv_harga_mukena);
         textView_totalHarga = findViewById(R.id.tv_order_total);
         textView_norek = findViewById(R.id.text_no_rekOrder);
         button_hitung = findViewById(R.id.order_btn_hitung);
@@ -490,14 +554,25 @@ public class OrderActivity extends AppCompatActivity {
         img_buktiTransfer = findViewById(R.id.img_buktiTransfer_order);
         tie_alamat = findViewById(R.id.edt_alamat_order);
         tie_nohp = findViewById(R.id.edt_noHp_order);
+        tv_kemeja = findViewById(R.id.tv_celana_kemeja);
         button_kembali = findViewById(R.id.btn_back_order);
         tie_keterangan = findViewById(R.id.edt_keterangan_order);
+        if (tipe_pesanan.equals("Cuci Setrika")) {
+            tv_baju.setText("Rp.2.000");
+            tv_kemeja.setText("Rp.3.000");
+            tv_levis.setText("Rp.6.000");
+            tv_sprei.setText("Rp.20.000");
+            tv_selimut.setText("Rp.20.000");
+            tv_bed.setText("Rp.25.000");
+            tv_jaket.setText("Rp.15.000");
+            tv_handuk.setText("Rp.7.000");
+            tv_mukena.setText("Rp.6.000");
+        }
         identitasHitung();
         radioGroup = findViewById(R.id.radioGroup2);
         tie_alamat.setText(session.getSpAlamat());
         tie_nohp.setText(session.getSpNohp());
         button_kembali.setOnClickListener(view -> finish());
-
     }
 
     private void identitasHitung() {
@@ -509,6 +584,7 @@ public class OrderActivity extends AppCompatActivity {
         plus_6 = findViewById(R.id.plus_qty_6);
         plus_7 = findViewById(R.id.plus_qty_7);
         plus_8 = findViewById(R.id.plus_qty_8);
+        plus_9 = findViewById(R.id.plus_qty_9);
         minus_1 = findViewById(R.id.minus_qty_1);
         minus_2 = findViewById(R.id.minus_qty_2);
         minus_3 = findViewById(R.id.minus_qty_3);
@@ -517,14 +593,16 @@ public class OrderActivity extends AppCompatActivity {
         minus_6 = findViewById(R.id.minus_qty_6);
         minus_7 = findViewById(R.id.minus_qty_7);
         minus_8 = findViewById(R.id.minus_qty_8);
+        minus_9 = findViewById(R.id.minus_qty_9);
         tv_total_qty1 = findViewById(R.id.tv_total_qty1);
-        tv_total_qty2 = findViewById(R.id.tv_total_qty_2);
+        tv_total_qty2 = findViewById(R.id.tv_total_qty2);
         tv_total_qty3 = findViewById(R.id.tv_total_qty_3);
         tv_total_qty4 = findViewById(R.id.tv_total_qty_4);
         tv_total_qty5 = findViewById(R.id.tv_total_qty_5);
         tv_total_qty6 = findViewById(R.id.tv_total_qty_6);
         tv_total_qty7 = findViewById(R.id.tv_total_qty_7);
         tv_total_qty8 = findViewById(R.id.tv_total_qty_8);
+        tv_total_qty9 = findViewById(R.id.tv_total_qty_9);
     }
 
     @SuppressLint("NonConstantResourceId")

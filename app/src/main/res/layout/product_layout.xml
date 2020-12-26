@@ -17,17 +17,17 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="1. Baju / Celana "
+            android:text="1. Baju / Bahan Kaos "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_baju"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_1"
             android:text="Rp.1.500"
             android:textColor="@color/black"
@@ -67,6 +67,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_add_circle_24px" />
     </RelativeLayout>
+
     <!--2-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,19 +81,20 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="2. Levis "
+            android:text="2. Celana / Kemeja "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_celana_kemeja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_2"
-            android:text="Rp.2.500"
+            android:text="Rp.2.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -103,13 +105,13 @@
             android:layout_height="24dp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_toStartOf="@+id/tv_total_qty_2"
+            android:layout_toStartOf="@+id/tv_total_qty2"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_remove_circle_24px"
             android:visibility="invisible" />
 
         <TextView
-            android:id="@+id/tv_total_qty_2"
+            android:id="@+id/tv_total_qty2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
@@ -143,19 +145,20 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="3. Sprei "
+            android:text="3. Levis "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_levis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_3"
-            android:text="Rp.3.000"
+            android:text="Rp.4.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -193,6 +196,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_add_circle_24px" />
     </RelativeLayout>
+
     <!--4-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -206,19 +210,20 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="4. Selimut "
+            android:text="4. Sprei 1 set"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_sprei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_4"
-            android:text="Rp.5.000"
+            android:text="Rp.15.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -269,19 +274,19 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="5. Bed Cover "
+            android:text="5. Selimut "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_selimut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_5"
-            android:text="Rp.7.000"
+            android:text="Rp.15.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -332,19 +337,20 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="6. Jaket "
+            android:text="6. Bed Cover "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_bed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_6"
-            android:text="Rp.3.500"
+            android:text="Rp.20.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -395,19 +401,20 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="7. Handuk "
+            android:text="7. Jaket "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_jaket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_7"
-            android:text="Rp.2.000"
+            android:text="Rp.10.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -458,19 +465,20 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="8. Mukena dan Sajadah "
+            android:text="8. Handuk "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_harga_handuk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toStartOf="@+id/minus_qty_8"
-            android:text="Rp.3.500"
+            android:text="Rp.6.000"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold" />
@@ -500,6 +508,70 @@
 
         <ImageView
             android:id="@+id/plus_qty_8"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_add_circle_24px" />
+    </RelativeLayout>
+    <!--9-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="9. Mukena atau Sajadah "
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_harga_mukena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_toStartOf="@+id/minus_qty_9"
+            android:text="Rp.3.500"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/minus_qty_9"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_toStartOf="@+id/tv_total_qty_9"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_remove_circle_24px"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_total_qty_9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_toStartOf="@+id/plus_qty_9"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/plus_qty_9"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"

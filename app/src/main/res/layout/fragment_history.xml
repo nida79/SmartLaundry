@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.HistoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HISTORY" />
+        android:layout_height="?attr/actionBarSize"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:background="@color/white"
+        android:elevation="@dimen/_8sdp"
+        android:text="Histori Pesanan"
+        android:fontFamily="@font/dosis_semibold"
+        android:textSize="@dimen/_15ssp"
+        android:textColor="@color/black"
+        android:id="@+id/tex_head_history"/>
 
-</FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/tex_head_history"
+        android:id="@+id/rcv_history"
+        android:visibility="gone"
+        tools:listitem="@layout/item_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit_history"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:SpinKit_Color="@color/purple_200" />
+
+</RelativeLayout>
