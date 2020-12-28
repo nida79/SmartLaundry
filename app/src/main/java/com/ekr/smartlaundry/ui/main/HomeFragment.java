@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.ekr.smartlaundry.R;
 import com.ekr.smartlaundry.ui.InfoActivity;
+import com.ekr.smartlaundry.ui.admin.MainActivity2;
 import com.ekr.smartlaundry.ui.order.OrderActivity;
-import com.ekr.smartlaundry.ui.order.PaketActivity;
 import com.ekr.smartlaundry.utils.Session;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +45,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         session = new Session(requireContext());
+
+
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.keepSynced(true);
         DatabaseReference userRef = rootRef.child(DB_USER);
@@ -75,6 +77,11 @@ public class HomeFragment extends Fragment {
                 session.saveSPString(Session.SP_NOHP, noHp);
                 session.saveSPString(Session.SP_ALAMAT, alamat);
                 session.saveSPString(Session.SP_RULE, rule);
+                if (session.getSpRule().equals("admin")){
+                    startActivity(new Intent(requireActivity(), MainActivity2.class));
+                    requireActivity().finishAffinity();
+                    requireActivity().finish();
+                }
             }
 
             @Override

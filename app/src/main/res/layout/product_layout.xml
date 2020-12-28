@@ -336,7 +336,6 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:text="6. Bed Cover "
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"

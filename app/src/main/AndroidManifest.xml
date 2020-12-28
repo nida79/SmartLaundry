@@ -16,7 +16,6 @@
         android:theme="@style/Theme.SmartLaundry">
         <activity android:name=".ui.admin.MainActivity2"></activity>
         <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.order.PaketActivity" />
         <activity android:name=".ui.InfoActivity" />
         <activity android:name=".ui.order.OrderActivity" />
         <activity android:name=".ui.auth.RegisterActivity" />

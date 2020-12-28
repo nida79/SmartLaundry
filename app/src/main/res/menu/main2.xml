@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/histori2"
+        android:icon="@drawable/ic_transfer_1"
+        android:title="Transaksi"
+        app:cnb_iconColor="@color/settings" />
+    <item
+        android:id="@+id/dashboard2"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Dashboard"
+        app:cnb_iconColor="@color/purple_500" />
+
+
+    <item
+        android:id="@+id/profile2"
+        android:icon="@drawable/ic_person"
+        android:title="Profil"
+        app:cnb_iconColor="@color/black" />
+
+</menu>

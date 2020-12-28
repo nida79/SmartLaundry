@@ -42,14 +42,15 @@ import static com.ekr.smartlaundry.utils.GlobalPath.DB_USER;
 
 public class ProfileFragment extends Fragment {
     private Session session;
-    private String nama, alamat, email, noHp,rule;
-    private TextView tv_nama,tv_email,tv_alamat,tv_hape;
+    private String nama, alamat, email, noHp, rule;
+    private TextView tv_nama, tv_email, tv_alamat, tv_hape;
     private Query query;
-    private  Dialog dialoEdit;
+    private Dialog dialoEdit;
     private android.app.AlertDialog alertDialog;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private Button btn_logout,btn_edit;
+    private Button btn_logout, btn_edit;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -111,7 +112,7 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
                 alertDialog.dismiss();
                 Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("Home", "cek"+error.getDetails());
+                Log.e("Home", "cek" + error.getDetails());
             }
         });
     }
@@ -121,6 +122,7 @@ public class ProfileFragment extends Fragment {
         super.onStart();
         auth.addAuthStateListener(authListener);
     }
+
     @Override
     public void onStop() {
         if (authListener != null) {
@@ -146,7 +148,10 @@ public class ProfileFragment extends Fragment {
                 .setIcon(R.mipmap.ic_smartlaundry)
                 .setMessage("Apakah Anda Yakin Ingin Keluar Akun ?")
                 .setCancelable(false)
-                .setPositiveButton("Ya", (dialog, which) -> ProfileFragment.this.auth.signOut())
+                .setPositiveButton("Ya", (dialog, which) -> {
+                    ProfileFragment.this.auth.signOut();
+                    session.logout(requireContext());
+                })
                 .setNegativeButton("Tidak", null)
                 .show());
 
@@ -159,32 +164,33 @@ public class ProfileFragment extends Fragment {
             dialoEdit.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialoEdit.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
             dialoEdit.show();
-            EditText editTextNama,editAlamat,editTelop;
+            EditText editTextNama, editAlamat, editTelop;
             editTextNama = dialoEdit.findViewById(R.id.edt_nama);
             editAlamat = dialoEdit.findViewById(R.id.edt_alamat);
             editTelop = dialoEdit.findViewById(R.id.edt_telp);
             editTextNama.setText(tv_nama.getText().toString());
             editAlamat.setText(tv_alamat.getText().toString());
             editTelop.setText(tv_hape.getText().toString());
-            Button btn_cancel,btn_save;
+            Button btn_cancel, btn_save;
             btn_cancel = dialoEdit.findViewById(R.id.cancel_edit);
             btn_save = dialoEdit.findViewById(R.id.submit_edit);
             btn_cancel.setOnClickListener(view2 -> dialoEdit.dismiss());
             btn_save.setOnClickListener(view2 -> {
-                String name,address,phone;
+                String name, address, phone;
                 name = editTextNama.getText().toString();
                 address = editAlamat.getText().toString();
                 phone = editTelop.getText().toString();
-                if (name.isEmpty() || address.isEmpty() || phone.isEmpty()){
-                    Toast.makeText(requireContext(),"Kolom Pengisian Tidak Boleh Kosong",Toast.LENGTH_SHORT).show();
-                }else {
-                    saveToFirebase(name,address,phone);
+                if (name.isEmpty() || address.isEmpty() || phone.isEmpty()) {
+                    Toast.makeText(requireContext(), "Kolom Pengisian Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveToFirebase(name, address, phone);
                 }
             });
         });
 
         return view;
     }
+
     private void saveToFirebase(String name, String address, String phone) {
         alertDialog.show();
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -195,22 +201,22 @@ public class ProfileFragment extends Fragment {
                     updatedata.getRef().child("alamat").setValue(address);
                     updatedata.getRef().child("nohp").setValue(phone);
                 }
-                session.saveSPString(Session.SP_NAMA,name);
-                session.saveSPString(Session.SP_ALAMAT,address);
-                session.saveSPString(Session.SP_NOHP,phone);
+                session.saveSPString(Session.SP_NAMA, name);
+                session.saveSPString(Session.SP_ALAMAT, address);
+                session.saveSPString(Session.SP_NOHP, phone);
                 tv_alamat.setText(address);
                 tv_nama.setText(name);
                 tv_hape.setText(phone);
                 alertDialog.dismiss();
                 dialoEdit.dismiss();
-                Toast.makeText(requireContext(),"Update Berhasil",Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Update Berhasil", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 alertDialog.dismiss();
                 dialoEdit.dismiss();
-                Toast.makeText(requireContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

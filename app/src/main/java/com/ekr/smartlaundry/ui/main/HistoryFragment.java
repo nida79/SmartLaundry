@@ -49,8 +49,11 @@ public class HistoryFragment extends Fragment {
         session = new Session(requireContext());
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference(DB_LAUNDRY);
         rootRef.keepSynced(true);
-        query = rootRef.orderByChild("uuid").equalTo(session.getSPUid());
-
+        if (session.getSpRule().equals("admin")){
+            query = rootRef;
+        }else {
+            query = rootRef.orderByChild("uuid").equalTo(session.getSPUid());
+        }
     }
 
     @Override

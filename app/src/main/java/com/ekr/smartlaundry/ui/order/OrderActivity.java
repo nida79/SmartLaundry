@@ -1,9 +1,5 @@
 package com.ekr.smartlaundry.ui.order;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,12 +15,24 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ekr.smartlaundry.R;
 import com.ekr.smartlaundry.data.CuciModel;
+import com.ekr.smartlaundry.data.HargaModel;
+import com.ekr.smartlaundry.utils.MoneyHelper;
 import com.ekr.smartlaundry.utils.ResiHelper;
 import com.ekr.smartlaundry.utils.Session;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,34 +46,18 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
+import static com.ekr.smartlaundry.utils.GlobalPath.DB_HARGA;
+import static com.ekr.smartlaundry.utils.GlobalPath.DB_HARGA_PAKET;
+import static com.ekr.smartlaundry.utils.GlobalPath.DB_ITEM;
+import static com.ekr.smartlaundry.utils.GlobalPath.DB_ITEM2;
 import static com.ekr.smartlaundry.utils.GlobalPath.DB_LAUNDRY;
 import static com.ekr.smartlaundry.utils.GlobalPath.STORAGE;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_1;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_2;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_3;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_4;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_5;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_6;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_7;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_8;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_9;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_1;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_2;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_3;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_4;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_5;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_6;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_7;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_8;
-import static com.ekr.smartlaundry.utils.GlobalPath.harga_cs_9;
 import static com.ekr.smartlaundry.utils.GlobalPath.qty_1;
 import static com.ekr.smartlaundry.utils.GlobalPath.qty_2;
 import static com.ekr.smartlaundry.utils.GlobalPath.qty_3;
@@ -80,13 +72,13 @@ public class OrderActivity extends AppCompatActivity {
     private static final String TAG = "CEK";
     private Session session;
     private RadioGroup radioGroup;
-
+    private HargaModel model;
     private int total_harga = 0;
     private CuciModel productItem;
     private TextView tv_total_qty1, tv_total_qty2, tv_total_qty3, tv_total_qty4,
-            tv_total_qty5, tv_total_qty6, tv_total_qty7, tv_total_qty8,tv_total_qty9,textViewTipe;
-    private ImageView plus_1, plus_2, plus_3, plus_4, plus_5, plus_6, plus_7, plus_8,plus_9;
-    private ImageView minus_1, minus_2, minus_3, minus_4, minus_5, minus_6, minus_7, minus_8,minus_9;
+            tv_total_qty5, tv_total_qty6, tv_total_qty7, tv_total_qty8, tv_total_qty9, textViewTipe;
+    private ImageView plus_1, plus_2, plus_3, plus_4, plus_5, plus_6, plus_7, plus_8, plus_9;
+    private ImageView minus_1, minus_2, minus_3, minus_4, minus_5, minus_6, minus_7, minus_8, minus_9;
     private EditText tie_alamat, tie_nohp, tie_keterangan;
     private String tipe_pesanan, tipe_pembayaran, alamat_order, tanggal_order, nohp_order, keyID, keterangan_order, resi;
     private TextView textView_totalHarga, textView_norek;
@@ -97,9 +89,12 @@ public class OrderActivity extends AppCompatActivity {
     private StorageReference mStorageReference;
     private DatabaseReference dbOrder;
     private String imageName;
+    private DatabaseReference getDbOrder;
+    private DatabaseReference rootRef;
+    private Query query;
     private RadioButton rb_cash, rb_trf;
-    private TextView tv_baju,tv_kemeja,tv_levis,tv_sprei,tv_selimut,tv_bed,tv_jaket,tv_handuk,tv_mukena;
-    private int restult1 =0;
+    private TextView tv_baju, tv_kemeja, tv_levis, tv_sprei, tv_selimut, tv_bed, tv_jaket, tv_handuk, tv_mukena;
+    private int restult1 = 0;
     private int restult2 = 0;
     private int restult3 = 0;
     private int restult4 = 0;
@@ -108,6 +103,7 @@ public class OrderActivity extends AppCompatActivity {
     private int restult7 = 0;
     private int restult8 = 0;
     private int restult9 = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +111,7 @@ public class OrderActivity extends AppCompatActivity {
         dialog = new SpotsDialog.Builder().setContext(OrderActivity.this).build();
         dialog.setMessage("Mohon Tunggu");
         dialog.setIcon(R.mipmap.ic_smartlaundry);
+        tipe_pesanan = getIntent().getStringExtra("tipe_pesanan");
         initListener();
         settingCheckbox();
         takePicture();
@@ -123,6 +120,100 @@ public class OrderActivity extends AppCompatActivity {
         tombolSubmit();
         Calendar calendar = Calendar.getInstance();
         tanggal_order = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        if (tipe_pesanan.equals("Cuci Setrika")) {
+            rootRef = FirebaseDatabase.getInstance().getReference(DB_ITEM);
+
+        } else {
+            rootRef = FirebaseDatabase.getInstance().getReference(DB_ITEM2);
+        }
+        rootRef.keepSynced(true);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getDataHarga();
+    }
+
+    private void getDataHarga() {
+        final android.app.AlertDialog alertDialog =
+                new SpotsDialog.Builder().setContext(OrderActivity.this).build();
+        alertDialog.setMessage("Mohon Tunggu");
+        alertDialog.setIcon(R.mipmap.ic_smartlaundry);
+        alertDialog.show();
+        query = rootRef.orderByChild(DB_HARGA);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                alertDialog.dismiss();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    model.setHarga_1(dataSnapshot.child("harga_1").getValue(Integer.class));
+                    model.setHarga_2(dataSnapshot.child("harga_2").getValue(Integer.class));
+                    model.setHarga_3(dataSnapshot.child("harga_3").getValue(Integer.class));
+                    model.setHarga_4(dataSnapshot.child("harga_4").getValue(Integer.class));
+                    model.setHarga_5(dataSnapshot.child("harga_5").getValue(Integer.class));
+                    model.setHarga_6(dataSnapshot.child("harga_6").getValue(Integer.class));
+                    model.setHarga_7(dataSnapshot.child("harga_7").getValue(Integer.class));
+                    model.setHarga_8(dataSnapshot.child("harga_8").getValue(Integer.class));
+                    model.setHarga_9(dataSnapshot.child("harga_9").getValue(Integer.class));
+                }
+                MoneyHelper.setRupiah(tv_baju, model.getHarga_1());
+                MoneyHelper.setRupiah(tv_kemeja, model.getHarga_2());
+                MoneyHelper.setRupiah(tv_levis, model.getHarga_3());
+                MoneyHelper.setRupiah(tv_sprei, model.getHarga_4());
+                MoneyHelper.setRupiah(tv_selimut, model.getHarga_5());
+                MoneyHelper.setRupiah(tv_bed, model.getHarga_6());
+                MoneyHelper.setRupiah(tv_jaket, model.getHarga_7());
+                MoneyHelper.setRupiah(tv_handuk, model.getHarga_8());
+                MoneyHelper.setRupiah(tv_mukena, model.getHarga_9());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                alertDialog.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void initListener() {
+        model = new HargaModel();
+        session = new Session(this);
+        imageName = System.currentTimeMillis() + ".jpeg";
+        mStorageReference = FirebaseStorage.getInstance().getReference();
+        dbOrder = FirebaseDatabase.getInstance().getReference(DB_LAUNDRY);
+        productItem = new CuciModel();
+
+        textViewTipe = findViewById(R.id.tipe_oder);
+        textViewTipe.setText(tipe_pesanan);
+        tv_baju = findViewById(R.id.tv_harga_baju);
+        tv_levis = findViewById(R.id.tv_harga_levis);
+        tv_sprei = findViewById(R.id.tv_harga_sprei);
+        tv_selimut = findViewById(R.id.tv_harga_selimut);
+        tv_bed = findViewById(R.id.tv_harga_bed);
+        tv_jaket = findViewById(R.id.tv_harga_jaket);
+        tv_handuk = findViewById(R.id.tv_harga_handuk);
+        tv_mukena = findViewById(R.id.tv_harga_mukena);
+        textView_totalHarga = findViewById(R.id.tv_order_total);
+        textView_norek = findViewById(R.id.text_no_rekOrder);
+        button_hitung = findViewById(R.id.order_btn_hitung);
+        rb_cash = findViewById(R.id.check_cash);
+        rb_trf = findViewById(R.id.check_transfer);
+        button_upload = findViewById(R.id.btn_upload_order);
+        button_Submit = findViewById(R.id.btn_submit_order);
+        img_buktiTransfer = findViewById(R.id.img_buktiTransfer_order);
+        tie_alamat = findViewById(R.id.edt_alamat_order);
+        tie_nohp = findViewById(R.id.edt_noHp_order);
+        tv_kemeja = findViewById(R.id.tv_celana_kemeja);
+        button_kembali = findViewById(R.id.btn_back_order);
+        tie_keterangan = findViewById(R.id.edt_keterangan_order);
+        identitasHitung();
+        radioGroup = findViewById(R.id.radioGroup2);
+        tie_alamat.setText(session.getSpAlamat());
+        tie_nohp.setText(session.getSpNohp());
+        button_kembali.setOnClickListener(view -> finish());
     }
 
     private void tombolSubmit() {
@@ -131,8 +222,8 @@ public class OrderActivity extends AppCompatActivity {
                 resi = "SA-" + ResiHelper.getRandomString(5);
             } else if (tipe_pesanan.equals("Cuci Kering")) {
                 resi = "CK-" + ResiHelper.getRandomString(5);
-            }else {
-                resi = "CS-"+ResiHelper.getRandomString(5);
+            } else {
+                resi = "CS-" + ResiHelper.getRandomString(5);
             }
             if (rb_trf.isChecked()) {
                 tipe_pembayaran = "Transfer";
@@ -460,33 +551,17 @@ public class OrderActivity extends AppCompatActivity {
 
     private void hitungTotal() {
         button_hitung.setOnClickListener(view -> {
-            if (!tipe_pesanan.equals("Cuci Setrika")){
-                 restult1 = harga_1 * qty_1;
-                 restult2 = harga_2 * qty_2;
-                 restult3 = harga_3 * qty_3;
-                 restult4 = harga_4 * qty_4;
-                 restult5 = harga_5 * qty_5;
-                 restult6 = harga_6 * qty_6;
-                 restult7 = harga_7 * qty_7;
-                 restult8 = harga_8 * qty_8;
-                 restult9 = harga_9 * qty_9;
-            }else {
-                restult1 = harga_cs_1 * qty_1;
-                restult2 = harga_cs_2 * qty_2;
-                restult3 = harga_cs_3 * qty_3;
-                restult4 = harga_cs_4 * qty_4;
-                restult5 = harga_cs_5 * qty_5;
-                restult6 = harga_cs_6 * qty_6;
-                restult7 = harga_cs_7 * qty_7;
-                restult8 = harga_cs_8 * qty_8;
-                restult9 = harga_cs_9 * qty_9;
-            }
-
-            total_harga = restult1 + restult2 + restult3 + restult4 + restult5 + restult6 + restult7 + restult8+restult9;
-            Locale localeID = new Locale("in", "ID");
-            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-            formatRupiah.setMaximumFractionDigits(0);
-            textView_totalHarga.setText(formatRupiah.format((double) total_harga));
+            restult1 = model.getHarga_1() * qty_1;
+            restult2 = model.getHarga_2() * qty_2;
+            restult3 = model.getHarga_3() * qty_3;
+            restult4 = model.getHarga_4() * qty_4;
+            restult5 = model.getHarga_5() * qty_5;
+            restult6 = model.getHarga_6() * qty_6;
+            restult7 = model.getHarga_7() * qty_7;
+            restult8 = model.getHarga_8() * qty_8;
+            restult9 = model.getHarga_9() * qty_9;
+            total_harga = restult1 + restult2 + restult3 + restult4 + restult5 + restult6 + restult7 + restult8 + restult9;
+            MoneyHelper.setRupiah(textView_totalHarga, total_harga);
         });
     }
 
@@ -525,54 +600,6 @@ public class OrderActivity extends AppCompatActivity {
                     .check();
 
         });
-    }
-
-    private void initListener() {
-        session = new Session(this);
-        imageName = System.currentTimeMillis() + ".jpeg";
-        mStorageReference = FirebaseStorage.getInstance().getReference();
-        dbOrder = FirebaseDatabase.getInstance().getReference(DB_LAUNDRY);
-        productItem = new CuciModel();
-        tipe_pesanan = getIntent().getStringExtra("tipe_pesanan");
-        textViewTipe = findViewById(R.id.tipe_oder);
-        textViewTipe.setText(tipe_pesanan);
-        tv_baju = findViewById(R.id.tv_harga_baju);
-        tv_levis = findViewById(R.id.tv_harga_levis);
-        tv_sprei = findViewById(R.id.tv_harga_sprei);
-        tv_selimut = findViewById(R.id.tv_harga_selimut);
-        tv_bed = findViewById(R.id.tv_harga_bed);
-        tv_jaket = findViewById(R.id.tv_harga_jaket);
-        tv_handuk = findViewById(R.id.tv_harga_handuk);
-        tv_mukena = findViewById(R.id.tv_harga_mukena);
-        textView_totalHarga = findViewById(R.id.tv_order_total);
-        textView_norek = findViewById(R.id.text_no_rekOrder);
-        button_hitung = findViewById(R.id.order_btn_hitung);
-        rb_cash = findViewById(R.id.check_cash);
-        rb_trf = findViewById(R.id.check_transfer);
-        button_upload = findViewById(R.id.btn_upload_order);
-        button_Submit = findViewById(R.id.btn_submit_order);
-        img_buktiTransfer = findViewById(R.id.img_buktiTransfer_order);
-        tie_alamat = findViewById(R.id.edt_alamat_order);
-        tie_nohp = findViewById(R.id.edt_noHp_order);
-        tv_kemeja = findViewById(R.id.tv_celana_kemeja);
-        button_kembali = findViewById(R.id.btn_back_order);
-        tie_keterangan = findViewById(R.id.edt_keterangan_order);
-        if (tipe_pesanan.equals("Cuci Setrika")) {
-            tv_baju.setText("Rp.2.000");
-            tv_kemeja.setText("Rp.3.000");
-            tv_levis.setText("Rp.6.000");
-            tv_sprei.setText("Rp.20.000");
-            tv_selimut.setText("Rp.20.000");
-            tv_bed.setText("Rp.25.000");
-            tv_jaket.setText("Rp.15.000");
-            tv_handuk.setText("Rp.7.000");
-            tv_mukena.setText("Rp.6.000");
-        }
-        identitasHitung();
-        radioGroup = findViewById(R.id.radioGroup2);
-        tie_alamat.setText(session.getSpAlamat());
-        tie_nohp.setText(session.getSpNohp());
-        button_kembali.setOnClickListener(view -> finish());
     }
 
     private void identitasHitung() {

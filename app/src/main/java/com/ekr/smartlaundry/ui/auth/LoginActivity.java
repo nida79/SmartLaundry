@@ -114,7 +114,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToMainMenu(FirebaseUser currentUser) {
         if (currentUser!=null){
-            session.saveSPString(Session.SP_UID,currentUser.getUid());
+            String a = currentUser.getUid();
+            session.saveSPString(Session.SP_UID,a);
             startActivity(new Intent(this,MainActivity.class));
             finishAffinity();
             finish();
